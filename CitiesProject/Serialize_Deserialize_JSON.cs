@@ -11,6 +11,9 @@ namespace CitiesProject
     {
         string FilePath;
         Dictionary<string, CityInfo> CityDict { get; set; }
+        public Serialize_Deserialize_JSON()
+        {        
+        }
         public Serialize_Deserialize_JSON(string fname)
         {
             FilePath = fname;

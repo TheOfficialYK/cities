@@ -15,6 +15,9 @@ namespace CitiesProject
         string FilePath { get; set; }
         string[] CSV_Data { get; set; }
 
+        public Serialize_Deserialize_CSV()
+        {           
+        }
         public Serialize_Deserialize_CSV(string fname)
         {
             this.FilePath = fname;
@@ -55,6 +58,31 @@ namespace CitiesProject
                 CityDict.Add(city.CityName, city);                
             }
             return CityDict;
+        }
+
+        public string Serialize(Dictionary<string, CityInfo> dict)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (dict !=null && dict.Count > 0)
+            {
+                //  Write header
+                sb.Append("city,city_ascii,lat,long,country,province,capital,city_population,city_id" + Environment.NewLine);
+                //  Write data
+                foreach(var item in dict)
+                {
+                    var city = item.Value;
+                    sb.Append(city.CityName + ",");
+                    sb.Append(city.CityAscii + ",");
+                    sb.Append(city.Latitude + ",");
+                    sb.Append(city.Longitude + ",");
+                    sb.Append("Canada,");
+                    sb.Append(city.Province + ",");
+                    sb.Append(","); //capital is empty 
+                    sb.Append(city.Population + ",");
+                    sb.Append(city.CityID + Environment.NewLine);                         
+                }
+            }
+            return sb.ToString();
         }
 
     }

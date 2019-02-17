@@ -36,7 +36,8 @@ namespace CitiesProject
         public int CalculateProvincePopulation(string ProvinceName)
         {
             int TotalPop = 0;
-           foreach(var c in CityCatalogue)
+            //  for each city in given province
+           foreach(var c in CityCatalogue.Where(city => city.Value.Province == ProvinceName).ToList())
             {
                 TotalPop += c.Value.Population;
             }
@@ -92,7 +93,31 @@ namespace CitiesProject
             }
 
         }
-      
+
+        public string Serialize(string filetype)
+        {
+            string data = "";
+            //  Call appropriate class method by ftype
+            if (filetype.ToLower().Equals("csv"))
+            {
+                Serialize_Deserialize_CSV _CSV = new Serialize_Deserialize_CSV();
+                data = _CSV.Serialize(CityCatalogue);
+
+            }
+            //else if (filetype.ToLower().Equals("json"))
+            //{
+            //    Serialize_Deserialize_JSON _JSON = new Serialize_Deserialize_JSON();
+            //    data = _JSON.Serialize(CityCatalogue);
+            //}
+            //else if (filetype.ToLower().Equals("xml"))
+            //{
+            //    Serialize_Deserialize_XML _XML = new Serialize_Deserialize_XML();
+            //    data = _XML.Serialize(CityCatalogue);
+            //}
+            return data;
+
+        }
+
 
     }
 }

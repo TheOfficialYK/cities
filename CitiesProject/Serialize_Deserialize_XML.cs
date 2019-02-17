@@ -10,6 +10,9 @@ namespace CitiesProject
     {
         string FilePath;
         Dictionary<string,CityInfo> CityDict { get; set; }
+        public Serialize_Deserialize_XML()
+        {       
+        }
         public Serialize_Deserialize_XML(string fname)
         {
             this.FilePath = fname;

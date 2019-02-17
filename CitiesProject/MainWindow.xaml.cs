@@ -4,10 +4,13 @@
  * Date: Feb 17, 2019
  * Purpose: To compare Canadian cities and province information
  */
+
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace CitiesProject
@@ -18,14 +21,13 @@ namespace CitiesProject
     public partial class MainWindow : Window
     {
         List<CityInfo> Cities { get; set; }
+        Statistics stats;
+        Dictionary<string, CityInfo> CityCatalog;
         public MainWindow()
         {
             InitializeComponent();
-            //  Get the data file from disk
-            GetFile();
-            lbCityList.ItemsSource = Cities.Select(c => c.CityName).ToList();
-
-           
+            cbSaveAs.ItemsSource = new List<string> { "JSON", "CSV", "XML" };
+            cbSaveAs.SelectedIndex = 0;
         }
         private void GetFile()
         {
@@ -43,9 +45,16 @@ namespace CitiesProject
                     FileType = FileName.Split('.')[1];
                 }
 
-                //  Call deserialize method from statistics class on async thread
+                //  Call deserialize method from statistics class 
                 DeserializeFile(FileName, FileType);
 
+                //  Set ListBox to City Names
+                var tmplist = Cities.Select(c => c.CityName).ToList();
+                tmplist.Sort();
+                lbCityList.ItemsSource = tmplist;
+
+                //  Set total number of cities
+                lblNumberOfCities.Content = "Number of Cities: " + tmplist.Count;
 
             }
             catch (Exception ex)
@@ -61,12 +70,116 @@ namespace CitiesProject
             GetFile();
         }
 
-        private async void DeserializeFile(string fname,string ftype)
+        private void DeserializeFile(string fname, string ftype)
         {
-            Statistics stats = new Statistics(fname, ftype);
-            stats.DeserializeFileToDictionary();           
+            stats = new Statistics(fname, ftype);
+            stats.DeserializeFileToDictionary();
+            //  copy catalog to global var
+            CityCatalog = stats.CityCatalogue;
             //  Add cities to List
-            Cities = stats.CityCatalogue.Select(c => c.Value).ToList();
+            Cities = CityCatalog.Select(c => c.Value).ToList();
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (cbSaveAs.SelectedIndex != -1)
+            {
+                if (stats != null)
+                {
+                    string fileType = cbSaveAs.SelectedItem as string;
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (fileType == "JSON")
+                        saveFileDialog.Filter = "JSON|*.json";
+                    else if (fileType == "CSV")
+                        saveFileDialog.Filter = "CSV|*.csv";
+                    else if (fileType == "XML")
+                        saveFileDialog.Filter = "  XML | *.xml";
+
+                    saveFileDialog.Title = "Save File as " + fileType;
+                    saveFileDialog.ShowDialog();
+
+                    // If the file name is not an empty string open it for saving.  
+
+                    if (saveFileDialog.FileName != "")
+                    {
+                        // Saves the file
+                        string data = stats.Serialize(fileType);
+                        if (data != null)
+                        {
+                            using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName, false, Encoding.UTF8)) //using unicode is important to get the french chars right
+                            {
+                                writer.Write(data);
+                            }
+                            MessageBox.Show("File written!", "Operation complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else return;
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nothing to write", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a save format!", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+
+        }
+
+        private void BtnCityOne_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbCityList.SelectedIndex != -1)
+            {
+                CityInfo city = CityCatalog.Where(c => c.Key == (lbCityList.SelectedItem as string)).FirstOrDefault().Value;
+                var prov = city.GetProvince();
+                var pop = city.GetPopulation();
+                var loc = city.GetLocation();
+                tboxCityOne.Text = "City Name: " + city.CityName +
+                                   "\nLocation:  " + loc +
+                                   "\nPopulation: " + pop +
+                                   "\nProvince:  " + prov;
+
+                //  Get province info from stats class
+                int provincePop = stats.CalculateProvincePopulation(prov);
+                tboxProvinceOne.Text = "Province Name: " + prov +        
+                                        "\nNumber of Cities: " + CityCatalog.Where(c => c.Value.Province == prov).ToList().Count +
+                                        "\nPopulation " + provincePop; 
+                
+            }
+            else
+            {
+                MessageBox.Show("Please select a City from the list!", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+        }
+
+        private void BtnCityTwo_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbCityList.SelectedIndex != -1)
+            {
+                CityInfo city = CityCatalog.Where(c => c.Key == (lbCityList.SelectedItem as string)).FirstOrDefault().Value;
+                var prov = city.GetProvince();
+                var pop = city.GetPopulation();
+                var loc = city.GetLocation();
+                tboxCityTwo.Text = "City Name: " + city.CityName +
+                                   "\nLocation:  " + loc +
+                                   "\nPopulation: " + pop +
+                                   "\nProvince:  " + prov;
+                //  Get province info from stats class
+                int provincePop = stats.CalculateProvincePopulation(prov);
+                tboxProvinceTwo.Text = "Province Name: " + prov +
+                                        "\nNumber of Cities: " + CityCatalog.Where(c => c.Value.Province == prov).ToList().Count +
+                                        "\nPopulation " + provincePop;
+            }
+            else
+            {
+                MessageBox.Show("Please select a City from the list!", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

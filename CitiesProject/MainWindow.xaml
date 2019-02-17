@@ -8,9 +8,27 @@
         Title="Cities Project" Height="450" Width="800" 
         ResizeMode="CanMinimize">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="135*"/>
+            <ColumnDefinition Width="262*"/>
+        </Grid.ColumnDefinitions>
         <Button x:Name="btnBrowse" Content="Browse" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="75" Click="OnBrowse"/>
-        <ListBox x:Name="lbCityList" HorizontalAlignment="Left" Height="374" Margin="10,10,0,0" VerticalAlignment="Top" Width="223"/>
-        <Label x:Name="lblFileName" Content="tempfilename" HorizontalAlignment="Left" Margin="90,386,0,0" VerticalAlignment="Top" Width="143"/>
+        <ListBox x:Name="lbCityList" HorizontalAlignment="Left" Height="317" Margin="10,35,0,0" VerticalAlignment="Top" Width="223"/>
+        <Label x:Name="lblFileName"  HorizontalAlignment="Left" Margin="90,386,0,0" VerticalAlignment="Top" Width="143"/>
+        <Label Content="Canadian Cities" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="223"/>
+        <TextBlock x:Name="tboxCityOne"  HorizontalAlignment="Left" Margin="238,35,0,0" TextWrapping="Wrap" Text="City One" VerticalAlignment="Top" Height="152" Width="232" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="tboxCityTwo" HorizontalAlignment="Left" Margin="238,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="160" Width="232" Grid.ColumnSpan="2"><Run Text="City"/><Run Text=" T"/><Run Text="wo"/></TextBlock>
+        <Button x:Name="btnCityOne" Content="Select City 1" HorizontalAlignment="Left" Margin="205,35,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="BtnCityOne_Click"/>
+        <Button x:Name="btnCityTwo" Content="Select City 2" HorizontalAlignment="Left" Margin="205,192,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.831,2.722" Grid.Column="1" Click="BtnCityTwo_Click"/>
+        <Label x:Name="lblNumberOfCities" Content="Number of Cities" HorizontalAlignment="Left" Margin="10,357,0,0" VerticalAlignment="Top" Width="223"/>
+        <ComboBox x:Name="cbSaveAs" Text="Save As" Grid.Column="1" HorizontalAlignment="Left" Margin="53,383,0,0" VerticalAlignment="Top" Width="120" />
+        <Label x:Name="lblSaveAs" Content="Save Format:" HorizontalAlignment="Left" Margin="238,383,0,0" VerticalAlignment="Top" Width="102" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnSave" Content="Save" Grid.Column="1" HorizontalAlignment="Left" Margin="205,386,0,0" VerticalAlignment="Top" Width="75" Click="BtnSave_Click"/>
+        <Label x:Name="lblCityOneProvince"  Content="Province Info: " Grid.Column="1" HorizontalAlignment="Left" Margin="313,35,0,0" VerticalAlignment="Top" Width="175"/>
+        <Label x:Name="lblCityTwoProvince" Content="Province Info:" Grid.Column="1" HorizontalAlignment="Left" Margin="313,194,0,0" VerticalAlignment="Top" Width="175"/>
+        <TextBlock x:Name="tboxProvinceOne" Grid.Column="1" HorizontalAlignment="Left" Margin="323,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="121" Width="179"/>
+        <TextBlock x:Name="tboxProvinceTwo" Grid.Column="1" HorizontalAlignment="Left" Margin="323,225,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="127" Width="165"/>
+        <TextBlock x:Name="tbxCitiesDistance" HorizontalAlignment="Left" Margin="239,362,0,0" TextWrapping="Wrap" Text="Distance goes here" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="311"/>
 
     </Grid>
 </Window>
