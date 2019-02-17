@@ -23,7 +23,7 @@ namespace CitiesProject
             InitializeComponent();
             //  Get the data file from disk
             GetFile();
-            lbCityList.DataContext = Cities.Select(c => c.CityName).ToList();
+            lbCityList.ItemsSource = Cities.Select(c => c.CityName).ToList();
 
            
         }
