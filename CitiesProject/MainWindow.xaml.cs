@@ -37,7 +37,7 @@ namespace CitiesProject
             {
                 //  Get file path
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "CSV files (*.csv)|*.csv|JSON files (*.json)|*.json|XML files (*.xml)|*.xml|All files (*.*)|*.*";
+                openFileDialog.Filter = "JSON files (*.json)|*.json|CSV files (*.csv)|*.csv|XML files (*.xml)|*.xml|All files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == true)
                 {
                     FileName = openFileDialog.FileName;
@@ -45,16 +45,20 @@ namespace CitiesProject
                     FileType = FileName.Split('.')[1];
                 }
 
-                //  Call deserialize method from statistics class 
-                DeserializeFile(FileName, FileType);
+                if(openFileDialog.FileName != "")
+                {
+                    //  Call deserialize method from statistics class 
+                    DeserializeFile(FileName, FileType);
 
-                //  Set ListBox to City Names
-                var tmplist = Cities.Select(c => c.CityName).ToList();
-                tmplist.Sort();
-                lbCityList.ItemsSource = tmplist;
+                    //  Set ListBox to City Names
+                    var tmplist = Cities.Select(c => c.CityName).ToList();
+                    tmplist.Sort();
+                    lbCityList.ItemsSource = tmplist;
 
-                //  Set total number of cities
-                lblNumberOfCities.Content = "Number of Cities: " + tmplist.Count;
+                    //  Set total number of cities
+                    lblNumberOfCities.Content = "Number of Cities: " + tmplist.Count;
+                }
+                
 
             }
             catch (Exception ex)
@@ -180,6 +184,35 @@ namespace CitiesProject
             {
                 MessageBox.Show("Please select a City from the list!", "Warning", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void TboxSearch_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            try
+            {
+                if (CityCatalog.Count > 0)
+                {
+                    if (tboxSearch.Text.Length != 0)
+                    {
+                        var tmplist = Cities.Where(c => c.CityName.ToLower()
+                        .Contains(tboxSearch.Text.ToLower())).Select(c => c.CityName).ToList();
+                        tmplist.Sort((a, b) => a.CompareTo(b));
+                        lbCityList.ItemsSource = tmplist;
+                    }
+                    else
+                    {
+                        var tmplist = Cities.Select(c => c.CityName).ToList();
+                        tmplist.Sort((a, b) => a.CompareTo(b));
+                        lbCityList.ItemsSource = tmplist;
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                return;
+            }
+                     
+           
         }
     }
 }

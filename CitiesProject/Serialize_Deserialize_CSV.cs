@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FileHelpers;
 
 namespace CitiesProject
 {
@@ -49,7 +48,9 @@ namespace CitiesProject
                 city.CityAscii = CityDetails[1];
                 city.Latitude = Convert.ToDouble(CityDetails[2]);
                 city.Longitude = Convert.ToDouble(CityDetails[3]);
+                city.Country = "Canada";
                 city.Province = CityDetails[5];
+                city.Capital = "";
                 city.Population = Convert.ToInt32(CityDetails[7]);
                 city.CityID = Convert.ToInt32(CityDetails[8]);
 
@@ -75,9 +76,9 @@ namespace CitiesProject
                     sb.Append(city.CityAscii + ",");
                     sb.Append(city.Latitude + ",");
                     sb.Append(city.Longitude + ",");
-                    sb.Append("Canada,");
+                    sb.Append(city.Country + ",");
                     sb.Append(city.Province + ",");
-                    sb.Append(","); //capital is empty 
+                    sb.Append(city.Capital + ","); 
                     sb.Append(city.Population + ",");
                     sb.Append(city.CityID + Environment.NewLine);                         
                 }
