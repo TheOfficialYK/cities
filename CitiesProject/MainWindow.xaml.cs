@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Xml;
 
 namespace CitiesProject
 {
@@ -37,7 +38,7 @@ namespace CitiesProject
             {
                 //  Get file path
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "JSON files (*.json)|*.json|CSV files (*.csv)|*.csv|XML files (*.xml)|*.xml|All files (*.*)|*.*";
+                openFileDialog.Filter = "XML files (*.xml)|*.xml|JSON files (*.json)|*.json|CSV files (*.csv)|*.csv|All files (*.*)|*.*";
                 if (openFileDialog.ShowDialog() == true)
                 {
                     FileName = openFileDialog.FileName;
@@ -60,7 +61,7 @@ namespace CitiesProject
                 }
                 
 
-            }
+            }           
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);

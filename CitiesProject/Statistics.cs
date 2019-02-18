@@ -85,11 +85,13 @@ namespace CitiesProject
             }
             else if (FileType.Equals("json"))
             {
-                Serialize_Deserialize_JSON deserialize_CSV = new Serialize_Deserialize_JSON(FileName);
+                Serialize_Deserialize_JSON deserialize_JSON = new Serialize_Deserialize_JSON(FileName);
+                CityCatalogue = deserialize_JSON.Deserialize();
             }
             else if (FileType.Equals("xml"))
             {
-                Serialize_Deserialize_XML deserialize_CSV = new Serialize_Deserialize_XML(FileName);
+                Serialize_Deserialize_XML deserialize_XML = new Serialize_Deserialize_XML(FileName);
+                CityCatalogue = deserialize_XML.Deserialize();
             }
 
         }
@@ -104,11 +106,11 @@ namespace CitiesProject
                 data = _CSV.Serialize(CityCatalogue);
 
             }
-            //else if (filetype.ToLower().Equals("json"))
-            //{
-            //    Serialize_Deserialize_JSON _JSON = new Serialize_Deserialize_JSON();
-            //    data = _JSON.Serialize(CityCatalogue);
-            //}
+            else if (filetype.ToLower().Equals("json"))
+            {
+                Serialize_Deserialize_JSON _JSON = new Serialize_Deserialize_JSON();
+                data = _JSON.Serialize(CityCatalogue);
+            }
             //else if (filetype.ToLower().Equals("xml"))
             //{
             //    Serialize_Deserialize_XML _XML = new Serialize_Deserialize_XML();

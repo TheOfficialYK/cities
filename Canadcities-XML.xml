@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+<Cities>
 <CanadaCity>
 	<city>Selkirk</city>
 	<city_ascii>Selkirk</city_ascii>
@@ -2749,6 +2750,5 @@
 	<population>25686</population>
 	<id>1124406431</id>
 </CanadaCity>
-<CanadaCity>
-	<city/>
-</CanadaCity>
+
+</Cities>
